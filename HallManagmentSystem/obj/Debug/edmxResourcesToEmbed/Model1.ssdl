@@ -1,0 +1,173 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="labcourseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Course">
+    <Key>
+      <PropertyRef Name="Course_ID" />
+    </Key>
+    <Property Name="Course_ID" Type="int" Nullable="false" />
+    <Property Name="Emri_lendes" Type="varchar" MaxLength="50" />
+    <Property Name="Halls_No" Type="int" />
+  </EntityType>
+  <EntityType Name="Departments">
+    <Key>
+      <PropertyRef Name="ID_Departments" />
+    </Key>
+    <Property Name="ID_Departments" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Emri_departamentit" Type="varchar" MaxLength="50" />
+    <Property Name="Drejtori_departmentit" Type="varchar" MaxLength="50" />
+    <Property Name="Viti_krijimit" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Hall">
+    <Key>
+      <PropertyRef Name="Halls_No" />
+    </Key>
+    <Property Name="Halls_No" Type="int" Nullable="false" />
+    <Property Name="Emertimi" Type="varchar" MaxLength="50" />
+    <Property Name="ID_Departments" Type="int" />
+  </EntityType>
+  <EntityType Name="Students">
+    <Key>
+      <PropertyRef Name="ID_Studenti" />
+    </Key>
+    <Property Name="ID_Studenti" Type="int" Nullable="false" />
+    <Property Name="Emri" Type="varchar" MaxLength="50" />
+    <Property Name="Mbiemri" Type="varchar" MaxLength="50" />
+    <Property Name="Adresa" Type="varchar" MaxLength="50" />
+    <Property Name="Email" Type="varchar" MaxLength="50" />
+    <Property Name="nr_tel" Type="varchar" MaxLength="25" />
+    <Property Name="drejtimi" Type="varchar" MaxLength="25" />
+    <Property Name="viti_studimeve" Type="varchar" MaxLength="25" />
+    <Property Name="ID_Departments" Type="int" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6013: The table/view 'labcourse.dbo.Takes' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="Takes">
+          <Property Name="Course_ID" Type="int" />
+          <Property Name="ID_Studenti" Type="int" />
+        </EntityType>-->
+  <EntityType Name="Teachers">
+    <Key>
+      <PropertyRef Name="ID_Teachers" />
+    </Key>
+    <Property Name="ID_Teachers" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Emri" Type="varchar" MaxLength="50" />
+    <Property Name="Mbiemri" Type="varchar" MaxLength="50" />
+    <Property Name="Adresa" Type="varchar" MaxLength="50" />
+    <Property Name="Email" Type="varchar" MaxLength="50" />
+    <Property Name="nr_tel" Type="varchar" MaxLength="25" />
+    <Property Name="Titulli" Type="varchar" MaxLength="50" />
+    <Property Name="ID_Departments" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6013: The table/view 'labcourse.dbo.Teaches' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="Teaches">
+          <Property Name="Course_ID" Type="int" />
+          <Property Name="ID_Teachers" Type="int" />
+        </EntityType>-->
+  <!--Errors Found During Generation:
+warning 6013: The table/view 'labcourse.dbo.Userat' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="Userat">
+          <Property Name="ID_Studenti" Type="int" />
+          <Property Name="ID_Teachers" Type="int" />
+        </EntityType>-->
+  <Association Name="FK__Course__Halls_No__3E52440B">
+    <End Role="Hall" Type="Self.Hall" Multiplicity="0..1" />
+    <End Role="Course" Type="Self.Course" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Hall">
+        <PropertyRef Name="Halls_No" />
+      </Principal>
+      <Dependent Role="Course">
+        <PropertyRef Name="Halls_No" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Hall__ID_Departm__3B75D760">
+    <End Role="Departments" Type="Self.Departments" Multiplicity="0..1" />
+    <End Role="Hall" Type="Self.Hall" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Departments">
+        <PropertyRef Name="ID_Departments" />
+      </Principal>
+      <Dependent Role="Hall">
+        <PropertyRef Name="ID_Departments" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Students__ID_Dep__38996AB5">
+    <End Role="Departments" Type="Self.Departments" Multiplicity="0..1" />
+    <End Role="Students" Type="Self.Students" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Departments">
+        <PropertyRef Name="ID_Departments" />
+      </Principal>
+      <Dependent Role="Students">
+        <PropertyRef Name="ID_Departments" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <!--Errors Found During Generation:
+error 6004: The table 'labcourse.dbo.Takes' is referenced by a relationship, but cannot be found.
+        <Association Name="FK__Takes__Course_ID__4316F928" />-->
+  <!--Errors Found During Generation:
+error 6004: The table 'labcourse.dbo.Takes' is referenced by a relationship, but cannot be found.
+        <Association Name="FK__Takes__ID_Studen__440B1D61" />-->
+  <Association Name="FK__Teachers__ID_Dep__412EB0B6">
+    <End Role="Departments" Type="Self.Departments" Multiplicity="0..1" />
+    <End Role="Teachers" Type="Self.Teachers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Departments">
+        <PropertyRef Name="ID_Departments" />
+      </Principal>
+      <Dependent Role="Teachers">
+        <PropertyRef Name="ID_Departments" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <!--Errors Found During Generation:
+error 6004: The table 'labcourse.dbo.Teaches' is referenced by a relationship, but cannot be found.
+        <Association Name="FK__Teaches__Course___45F365D3" />-->
+  <!--Errors Found During Generation:
+error 6004: The table 'labcourse.dbo.Teaches' is referenced by a relationship, but cannot be found.
+        <Association Name="FK__Teaches__ID_Teac__46E78A0C" />-->
+  <!--Errors Found During Generation:
+error 6004: The table 'labcourse.dbo.Userat' is referenced by a relationship, but cannot be found.
+        <Association Name="FK__Userat__ID_Stude__48CFD27E" />-->
+  <!--Errors Found During Generation:
+error 6004: The table 'labcourse.dbo.Userat' is referenced by a relationship, but cannot be found.
+        <Association Name="FK__Userat__ID_Teach__49C3F6B7" />-->
+  <EntityContainer Name="labcourseModelStoreContainer">
+    <EntitySet Name="Course" EntityType="Self.Course" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Departments" EntityType="Self.Departments" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Hall" EntityType="Self.Hall" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Students" EntityType="Self.Students" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Teachers" EntityType="Self.Teachers" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Course__Halls_No__3E52440B" Association="Self.FK__Course__Halls_No__3E52440B">
+      <End Role="Hall" EntitySet="Hall" />
+      <End Role="Course" EntitySet="Course" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Hall__ID_Departm__3B75D760" Association="Self.FK__Hall__ID_Departm__3B75D760">
+      <End Role="Departments" EntitySet="Departments" />
+      <End Role="Hall" EntitySet="Hall" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Students__ID_Dep__38996AB5" Association="Self.FK__Students__ID_Dep__38996AB5">
+      <End Role="Departments" EntitySet="Departments" />
+      <End Role="Students" EntitySet="Students" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Teachers__ID_Dep__412EB0B6" Association="Self.FK__Teachers__ID_Dep__412EB0B6">
+      <End Role="Departments" EntitySet="Departments" />
+      <End Role="Teachers" EntitySet="Teachers" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
